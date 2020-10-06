@@ -9,6 +9,7 @@ from curriculum_tracking.constants import (
     RED_FLAG,
     EXCELLENT,
 )
+from django.utils import timezone
 
 # @receiver([m2m_changed], sender=models.AgileCard.assignees.through)
 # def make_sure_project_assignees_match_card(sender, instance, **kwargs):
@@ -151,6 +152,7 @@ def maybe_move_card_because_of_project_review(sender, instance, created, **kwarg
 
     if user_is_trusted:
         card.status = models.AgileCard.COMPLETE
+        card.topic_progress.complete_time = timezone.datetime.now()
         card.save()
 
 
